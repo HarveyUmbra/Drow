@@ -3,11 +3,7 @@ use avian3d::prelude::{
     Position,
     RigidBody,
 };
-use bevy::{
-    color::palettes::css::RED,
-    prelude::*,
-};
-use vleue_navigator::prelude::*;
+use bevy::prelude::*;
 
 pub fn spawn_test_setup(
     mut commands: Commands,
@@ -31,34 +27,11 @@ pub fn spawn_ground(
     mut meshes: ResMut<Assets<Mesh>>,
 ) {
     let lev_entity = commands.spawn_empty().id();
-    let nav_entity = commands.spawn_empty().id();
-    let id = nav_entity.index() as u128;
 
-
-    NavMesh::fr
-    let mesh = meshes.add(Plane3d::new(Vec3::Y, Vec2::new(10.0, 10.0)));
-    let tri = Triangulation::from_outer_edges(edges);
-    commands
-        .entity(lev_entity)
-        .insert((
-            RigidBody::Static,
-            Collider::half_space(Vec3::Y),
-            MeshMaterial3d(materials.add(StandardMaterial::default())),
-            Mesh3d(meshes.add(Plane3d::new(Vec3::Y, Vec2::new(10.0, 10.0)))),
-            NavMeshSettings {
-                fixed: Triangulation::from_outer_edges(&[
-                    vec2(-15.0, -15.0),
-                    vec2(15.0, -15.0),
-                    vec2(15.0, 15.0),
-                    vec2(-15.0, 15.0),
-                ]),
-                ..default()
-            },
-            NavMeshUpdateMode::Direct,
-            NavMeshDebug(RED.into()),
-            ManagedNavMesh::from_id(id),
-        ))
-        .add_child(nav_entity);
-
-    commands.entity(nav_entity).insert(());
+    commands.entity(lev_entity).insert((
+        RigidBody::Static,
+        Collider::half_space(Vec3::Y),
+        MeshMaterial3d(materials.add(StandardMaterial::default())),
+        Mesh3d(meshes.add(Plane3d::new(Vec3::Y, Vec2::new(10.0, 10.0)))),
+    ));
 }
