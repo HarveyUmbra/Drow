@@ -1,0 +1,11 @@
+[package]
+name = "drow_nav"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+avian3d.workspace = true
+bevy.workspace = true
+
+drow_lib.workspace = true
+drow_debug.workspace = true

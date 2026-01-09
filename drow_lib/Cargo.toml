@@ -1,0 +1,9 @@
+[package]
+name = "drow_lib"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+avian3d.workspace = true
+bevy.workspace = true
+vleue_navigator.workspace = true
