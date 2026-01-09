@@ -29,15 +29,14 @@ pub fn spawn_ground(
     mut commands: Commands,
     mut materials: ResMut<Assets<StandardMaterial>>,
     mut meshes: ResMut<Assets<Mesh>>,
+    mut navmeshes: ResMut<Assets<NavMesh>>,
 ) {
     let lev_entity = commands.spawn_empty().id();
     let nav_entity = commands.spawn_empty().id();
     let id = nav_entity.index() as u128;
 
+    let mesh = &Mesh::from(Cuboid::new(1.0, 1.0, 1.0));
 
-    NavMesh::fr
-    let mesh = meshes.add(Plane3d::new(Vec3::Y, Vec2::new(10.0, 10.0)));
-    let tri = Triangulation::from_outer_edges(edges);
     commands
         .entity(lev_entity)
         .insert((
@@ -46,12 +45,10 @@ pub fn spawn_ground(
             MeshMaterial3d(materials.add(StandardMaterial::default())),
             Mesh3d(meshes.add(Plane3d::new(Vec3::Y, Vec2::new(10.0, 10.0)))),
             NavMeshSettings {
-                fixed: Triangulation::from_outer_edges(&[
-                    vec2(-15.0, -15.0),
-                    vec2(15.0, -15.0),
-                    vec2(15.0, 15.0),
-                    vec2(-15.0, 15.0),
-                ]),
+                fixed: Triangulation::from_mesh(
+                    NavMesh::from_bevy_mesh(mesh).unwrap().get().as_ref(),
+                    0,
+                ),
                 ..default()
             },
             NavMeshUpdateMode::Direct,
