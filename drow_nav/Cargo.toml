@@ -4,6 +4,8 @@ version = "0.0.1"
 edition = "2024"
 
 [dependencies]
+bevy_rerecast = "0.3.0"
+avian_rerecast = "0.3.0"
 avian3d.workspace = true
 bevy.workspace = true
 

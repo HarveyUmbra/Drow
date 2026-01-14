@@ -9,3 +9,4 @@ bevy.workspace = true
 
 drow_lib.workspace = true
 drow_debug.workspace = true
+drow_nav.workspace = true
