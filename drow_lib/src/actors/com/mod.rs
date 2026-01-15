@@ -1,8 +1,4 @@
 use bevy::prelude::*;
-use vleue_navigator::{
-    NavMesh,
-    TransformedPath,
-};
 
 #[derive(Component)]
 pub struct Actor(pub String);
@@ -11,23 +7,6 @@ impl Default for Actor {
         Actor("sda".to_string())
     }
 }
-
-/*
-#[derive(Component, Default, Reflect)]
-pub struct Target {
-    pub target: Vec3,
-    pub NavMesh: Handle<NavMesh>,
-}
-
-
-#[derive(Event)]
-pub struct FixTarget(pub Entity);
-
-#[derive(Component, Default, Reflect)]
-pub struct Path {
-    pub path: Vec<Vec3>,
-}
- */
 
 /*
 #[derive(Component)]

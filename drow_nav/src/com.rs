@@ -19,3 +19,6 @@ pub struct Target {
 pub struct Path {
     pub path: Vec<Vec3>,
 }
+
+#[derive(Component)]
+pub struct Obstacle;

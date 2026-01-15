@@ -1,4 +1,10 @@
 pub use crate::com::{
     Change_Event,
-    Navigator, //
+    Navigator,
+    Obstacle,
+};
+
+pub use super::{
+    NavigationPlugin,
+    NavigationPlugins,
 };

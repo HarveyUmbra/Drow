@@ -7,6 +7,7 @@ use bevy::{
     color::palettes::css::RED,
     prelude::*,
 };
+use drow_nav::prelude::*;
 use vleue_navigator::prelude::*;
 
 pub fn spawn_test_setup(
@@ -21,7 +22,7 @@ pub fn spawn_test_setup(
         Position::from_xyz(10.0, 0.5, 10.0),
         MeshMaterial3d(materials.add(StandardMaterial::default())),
         Mesh3d(mesh),
-        super::com::Obstacle,
+        Obstacle,
     ));
 }
 

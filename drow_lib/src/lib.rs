@@ -10,25 +10,21 @@ use bevy::app::{
     PluginGroup,
     PluginGroupBuilder,
 };
-use vleue_navigator::prelude::*;
+use drow_nav::prelude::*;
 
 use crate::{
     actors::ActorsPlugin,
     camera::CameraPlugin,
     input::InputPlugin,
-    test::{
-        TestPlugin,
-        com::Obstacle,
-    },
+    test::TestPlugin,
 };
 
 pub struct GamePlugins;
 impl PluginGroup for GamePlugins {
     fn build(self) -> PluginGroupBuilder {
         PluginGroupBuilder::start::<Self>()
-            .add(PhysicsPickingPlugin) // EXTERN:
-            .add(VleueNavigatorPlugin) // EXTERN: Add NavMesh support
-            .add(NavmeshUpdaterPlugin::<Collider, Obstacle>::default()) // EXTERN: Generation NavMesh
+            .add(PhysicsPickingPlugin) // EXTERN: // EXTERN: Add NavMesh support
+            .add_group(NavigationPlugins) // EXTERN: Generation NavMesh
             .add(InputPlugin)
             .add(CameraPlugin)
             .add(ActorsPlugin)

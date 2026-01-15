@@ -1,7 +1,11 @@
 mod com;
 pub mod prelude;
 mod sys;
-use self::sys::*;
+use self::{
+    com::*,
+    sys::*,
+};
+use avian3d::prelude::*;
 use bevy::{
     app::PluginGroupBuilder,
     prelude::*,
@@ -18,6 +22,9 @@ impl Plugin for NavigationPlugin {
 pub struct NavigationPlugins;
 impl PluginGroup for NavigationPlugins {
     fn build(self) -> PluginGroupBuilder {
-        PluginGroupBuilder::start::<Self>().add(VleueNavigatorPlugin)
+        PluginGroupBuilder::start::<Self>()
+            .add(VleueNavigatorPlugin)
+            .add(NavigationPlugin)
+            .add(NavmeshUpdaterPlugin::<Collider, Obstacle>::default())
     }
 }
