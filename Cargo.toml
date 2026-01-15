@@ -13,7 +13,7 @@ bevy-inspector-egui = "=0.35.0"         # Crate zu Help Devtools anzeige von all
 vleue_navigator = { version = "0.14", features = ["avian3d"] }      # Zu erzeugung von NavMesh und nutzung des A* algoritmus
 drow_lib = { path = "./drow_lib" }      # Crate für das Eigentliche Spiel
 drow_debug = { path = "./drow_debug" }  # Bereitstellen aller Entwickler tools die ich brauche
-
+drow_nav = { path = "./drow_nav" }
 
 [workspace.dependencies.bevy]
 version = "0.17.3"

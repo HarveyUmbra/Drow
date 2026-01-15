@@ -29,13 +29,12 @@ pub fn spawn_ground(
     mut commands: Commands,
     mut materials: ResMut<Assets<StandardMaterial>>,
     mut meshes: ResMut<Assets<Mesh>>,
-    mut navmeshes: ResMut<Assets<NavMesh>>,
 ) {
     let lev_entity = commands.spawn_empty().id();
     let nav_entity = commands.spawn_empty().id();
     let id = nav_entity.index() as u128;
 
-    let mesh = &Mesh::from(Cuboid::new(1.0, 1.0, 1.0));
+    let mesh = &Mesh::from(Plane3d::new(Vec3::Y, Vec2::new(10.0, 10.0)));
 
     commands
         .entity(lev_entity)
@@ -44,18 +43,20 @@ pub fn spawn_ground(
             Collider::half_space(Vec3::Y),
             MeshMaterial3d(materials.add(StandardMaterial::default())),
             Mesh3d(meshes.add(Plane3d::new(Vec3::Y, Vec2::new(10.0, 10.0)))),
-            NavMeshSettings {
-                fixed: Triangulation::from_mesh(
-                    NavMesh::from_bevy_mesh(mesh).unwrap().get().as_ref(),
-                    0,
-                ),
-                ..default()
-            },
-            NavMeshUpdateMode::Direct,
-            NavMeshDebug(RED.into()),
-            ManagedNavMesh::from_id(id),
         ))
         .add_child(nav_entity);
 
-    commands.entity(nav_entity).insert(());
+    commands.entity(nav_entity).insert((
+        Transform::from_rotation(Quat::from_rotation_x(90.0_f32.to_radians())),
+        NavMeshSettings {
+            fixed: Triangulation::from_mesh(
+                NavMesh::from_bevy_mesh(mesh).unwrap().get().as_ref(),
+                0,
+            ),
+            ..default()
+        },
+        NavMeshUpdateMode::Direct,
+        NavMeshDebug(RED.into()),
+        ManagedNavMesh::from_id(id),
+    ));
 }

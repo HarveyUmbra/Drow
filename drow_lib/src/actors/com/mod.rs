@@ -12,11 +12,13 @@ impl Default for Actor {
     }
 }
 
+/*
 #[derive(Component, Default, Reflect)]
 pub struct Target {
     pub target: Vec3,
     pub NavMesh: Handle<NavMesh>,
 }
+
 
 #[derive(Event)]
 pub struct FixTarget(pub Entity);
@@ -25,6 +27,7 @@ pub struct FixTarget(pub Entity);
 pub struct Path {
     pub path: Vec<Vec3>,
 }
+ */
 
 /*
 #[derive(Component)]

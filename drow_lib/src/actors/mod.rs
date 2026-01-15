@@ -13,8 +13,7 @@ impl Plugin for ActorsPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<SelectedActor>()
             .add_systems(Startup, spawn_actor_setup)
-            .add_systems(Update, (compute_path_actor, display_path_actor))
-            .add_observer(select_actor)
-            .add_observer(set_target_actor);
+            .add_observer(select_actor);
+        //.add_observer(set_target_actor);
     }
 }
