@@ -8,19 +8,6 @@ impl Default for Actor {
     }
 }
 
-#[derive(Component, Default, Reflect)]
-pub struct Target {
-    pub target: Vec3,
-}
-
-#[derive(Event)]
-pub struct FixTarget(pub Entity);
-
-#[derive(Component, Default, Reflect)]
-pub struct Path {
-    pub path: Vec<Vec3>,
-}
-
 /*
 #[derive(Component)]
 pub struct Fae;

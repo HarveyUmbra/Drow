@@ -3,13 +3,9 @@ use super::{
     com::*,
     res::*,
 };
-use avian3d::prelude::{
-    Collider,
-    LockedAxes,
-    Position,
-    RigidBody,
-};
+use avian3d::prelude::*;
 use bevy::prelude::*;
+use drow_nav::prelude::*;
 
 pub fn spawn_actor_setup(
     mut commands: Commands,
@@ -19,10 +15,7 @@ pub fn spawn_actor_setup(
     let mesh = meshes.add(Capsule3d::new(0.5, 1.8));
     commands.spawn((
         Actor::default(),
-        Target {
-            ..Default::default()
-        },
-        Path::default(),
+        Navigator,
         RigidBody::Dynamic,
         Position::from_xyz(0.0, 2.0, 0.0),
         LockedAxes::new().lock_rotation_z().lock_rotation_x(),
@@ -44,3 +37,20 @@ pub fn select_actor(
         selected.0 = Some(event.event_target());
     }
 }
+
+/*
+pub fn set_target_actor(
+    event: On<Pointer<Click>>,
+    selected: Res<SelectedActor>,
+    mut query: Query<&mut Target, With<Actor>>,
+) {
+    if let Some(entity) = selected.0
+        && !query.contains(event.event_target())
+    {
+        if let Some(hit_position) = event.hit.position {
+            if let Ok(mut target) = query.get_mut(entity) {
+                target.target = hit_position;
+            }
+        }
+    }
+} */
