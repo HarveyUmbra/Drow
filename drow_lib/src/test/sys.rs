@@ -33,7 +33,7 @@ pub fn spawn_ground(
 ) {
     let lev_entity = commands.spawn_empty().id();
     let nav_entity = commands.spawn_empty().id();
-    let id = nav_entity.index() as u128;
+    let id = nav_entity.index().index() as u128;
 
     let mesh = &Mesh::from(Plane3d::new(Vec3::Y, Vec2::new(10.0, 10.0)));
 
