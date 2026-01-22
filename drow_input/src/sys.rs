@@ -1,7 +1,4 @@
-use crate::actions::{
-    MoveEvent,
-    RotateEvent,
-};
+use super::eve::*;
 use bevy::prelude::*;
 
 // Übersetzt den User Input in ein Move Event das eine richtung wiedergibt
@@ -15,7 +12,7 @@ pub fn controler_wasd(
     direction.x += keyboard.pressed(KeyCode::KeyA) as i32 as f32;
     direction.x -= keyboard.pressed(KeyCode::KeyD) as i32 as f32;
     if let Ok(dir) = Dir3::new(direction) {
-        commands.trigger(MoveEvent(dir));
+        commands.trigger(MoveInput(dir));
     }
 }
 
@@ -29,6 +26,6 @@ pub fn controler_eq(
     direction -= keyboard.just_pressed(KeyCode::KeyE) as i32 as f32;
 
     if direction != 0.0 {
-        commands.trigger(RotateEvent(direction));
+        commands.trigger(RotateInput(direction));
     }
 }

@@ -1,6 +1,14 @@
+pub mod prelude {
+    pub use super::{
+        InputPlugin,
+        eve::*,
+    };
+}
+pub mod eve;
 mod sys;
+
+use self::sys::*;
 use bevy::prelude::*;
-use sys::*;
 
 pub struct InputPlugin;
 impl Plugin for InputPlugin {

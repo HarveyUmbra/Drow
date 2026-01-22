@@ -1,7 +1,5 @@
-pub mod actions;
 mod actors;
 mod camera;
-mod input;
 pub mod prelude;
 mod test;
 
@@ -10,12 +8,12 @@ use bevy::app::{
     PluginGroup,
     PluginGroupBuilder,
 };
+use drow_input::prelude::*;
 use drow_nav::prelude::*;
 
 use crate::{
     actors::ActorsPlugin,
     camera::CameraPlugin,
-    input::InputPlugin,
     test::TestPlugin,
 };
 

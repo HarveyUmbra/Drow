@@ -1,9 +1,6 @@
 use super::com::*;
-use crate::actions::{
-    MoveEvent,
-    RotateEvent,
-};
 use bevy::prelude::*;
+use drow_input::prelude::*;
 
 pub fn spawn_camera_setup(mut commands: Commands) {
     commands
@@ -19,13 +16,11 @@ pub fn spawn_camera_setup(mut commands: Commands) {
 }
 
 pub fn movement(
-    event: On<MoveEvent>,
+    event: On<MoveInput>,
     time: Res<Time>,
     mut query: Query<&mut Transform, With<Player>>,
 ) {
-    let direction = event
-        .event()
-        .0;
+    let direction = event.event().0;
 
     for mut transform in query.iter_mut() {
         let world_direction = transform.rotation * *direction;
@@ -33,10 +28,8 @@ pub fn movement(
     }
 }
 
-pub fn rotate(event: On<RotateEvent>, mut query: Query<&mut Transform, With<Player>>) {
-    let direction = event
-        .event()
-        .0;
+pub fn rotate(event: On<RotateInput>, mut query: Query<&mut Transform, With<Player>>) {
+    let direction = event.event().0;
 
     for mut transform in query.iter_mut() {
         transform.rotate_axis(Dir3::Y, direction * 90.0f32.to_radians());

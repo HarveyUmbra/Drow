@@ -2,6 +2,7 @@
 resolver = "3"
 members = [
     "drow_debug",
+    "drow_input",
     "drow_lib",
     "drow_main",
     "drow_nav"
@@ -15,6 +16,7 @@ vleue_navigator = { version = "0.15", features = ["avian3d"] }      # Zu erzeugu
 drow_lib = { path = "./drow_lib" }      # Crate für das Eigentliche Spiel
 drow_debug = { path = "./drow_debug" }  # Bereitstellen aller Entwickler tools die ich brauche
 drow_nav = { path = "./drow_nav" }
+drow_input = { path = "./drow_input" }
 
 [workspace.dependencies.bevy]
 version = "0.18.0"
