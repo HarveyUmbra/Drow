@@ -17,7 +17,7 @@ use self::{
 pub struct NavigationPlugin;
 impl Plugin for NavigationPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (compute_path, display_path))
+        app.add_systems(Update, (compute_path, display_path, handle_mouse_clicks))
             .add_observer(setup_ground)
             .add_observer(despawn_ground);
     }
