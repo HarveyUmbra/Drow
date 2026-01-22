@@ -1,10 +1,7 @@
-mod com;
+mod navigator;
+mod navmesh;
 pub mod prelude;
-mod sys;
-use self::{
-    com::*,
-    sys::*,
-};
+
 use avian3d::prelude::*;
 use bevy::{
     app::PluginGroupBuilder,
@@ -12,10 +9,17 @@ use bevy::{
 };
 use vleue_navigator::prelude::*;
 
+use self::{
+    navigator::sys::*,
+    navmesh::sys::*,
+};
+
 pub struct NavigationPlugin;
 impl Plugin for NavigationPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (compute_path, display_path));
+        app.add_systems(Update, (compute_path, display_path, handle_mouse_clicks))
+            .add_observer(setup_ground)
+            .add_observer(despawn_ground);
     }
 }
 
@@ -28,3 +32,6 @@ impl PluginGroup for NavigationPlugins {
             .add(NavmeshUpdaterPlugin::<Collider, Obstacle>::default())
     }
 }
+
+#[derive(Debug, Component)]
+pub struct Obstacle;
