@@ -20,8 +20,7 @@ use crate::{
 pub struct GamePlugins;
 impl PluginGroup for GamePlugins {
     fn build(self) -> PluginGroupBuilder {
-        PluginGroupBuilder::start::<Self>()
-            .add(PhysicsPickingPlugin) // EXTERN: // EXTERN: Add NavMesh support
+        PluginGroupBuilder::start::<Self>() // EXTERN: // EXTERN: Add NavMesh support
             .add_group(NavigationPlugins) // EXTERN: Generation NavMesh
             .add(InputPlugin)
             .add(CameraPlugin)

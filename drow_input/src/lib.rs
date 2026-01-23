@@ -8,6 +8,7 @@ pub mod eve;
 mod sys;
 
 use self::sys::*;
+use avian3d::prelude::*;
 use bevy::prelude::*;
 
 pub struct InputPlugin;
@@ -18,6 +19,7 @@ impl Plugin for InputPlugin {
             (
                 controler_wasd, //
                 controler_eq,
+                controler_click,
             ),
         );
     }

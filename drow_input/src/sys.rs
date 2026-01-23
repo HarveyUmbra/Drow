@@ -1,4 +1,5 @@
 use super::eve::*;
+use avian3d::prelude::*;
 use bevy::prelude::*;
 
 // Übersetzt den User Input in ein Move Event das eine richtung wiedergibt
@@ -27,5 +28,48 @@ pub fn controler_eq(
 
     if direction != 0.0 {
         commands.trigger(RotateInput(direction));
+    }
+}
+
+pub fn controler_click(
+    mut commands: Commands,
+    mouse: Res<ButtonInput<MouseButton>>,
+    spaciel: SpatialQuery,
+    windows: Single<&Window>,
+    camera: Single<(&Camera, &GlobalTransform)>,
+) {
+    let pressed = mouse.get_just_pressed().next();
+    let filter = match pressed {
+        Some(MouseButton::Left) => SpatialQueryFilter::from_mask(32), // Todo Defination of Layers
+        Some(MouseButton::Right) => SpatialQueryFilter::from_mask(43), // Todo Defination of Layers
+        _ => return,
+    };
+
+    if let Some(cursor_pos) = windows.cursor_position() {
+        if let Ok(ray) = camera.0.viewport_to_world(camera.1, cursor_pos) {
+            if let Some(hit) = spaciel.cast_ray(
+                ray.origin, //
+                ray.direction,
+                1000.0,
+                true,
+                &filter,
+            ) {
+                match pressed {
+                    Some(MouseButton::Left) => {
+                        commands.trigger(ClickLeftInput(hit));
+                        info!("Click Entity {} whit Left", hit.entity)
+                    }
+                    Some(MouseButton::Right) => {
+                        commands.trigger(ClickRightInput(hit));
+                        info!("Click Entity {} whit Rigth", hit.entity)
+                    }
+                    _ => {
+                        info!("Click False Entity")
+                    }
+                }
+            } else {
+                info!("Dont Click Enitty");
+            }
+        }
     }
 }
