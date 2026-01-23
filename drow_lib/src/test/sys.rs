@@ -1,9 +1,11 @@
 use avian3d::prelude::{
     Collider,
+    CollisionLayers,
     Position,
     RigidBody,
 };
 use bevy::prelude::*;
+use drow_core::prelude::LayerMask;
 use drow_nav::prelude::*;
 
 pub fn spawn_test_setup(
@@ -32,6 +34,7 @@ pub fn spawn_ground(
     commands.entity(lev_entity).insert((
         RigidBody::Static,
         Collider::half_space(Vec3::Y),
+        CollisionLayers::new(LayerMask::Ground, LayerMask::Actors),
         MeshMaterial3d(materials.add(StandardMaterial::default())),
         Mesh3d(meshes.add(Plane3d::new(Vec3::Y, Vec2::new(10.0, 10.0)))),
         NavGround,

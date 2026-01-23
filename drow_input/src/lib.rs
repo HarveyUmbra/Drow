@@ -1,14 +1,9 @@
 pub mod prelude {
-    pub use super::{
-        InputPlugin,
-        eve::*,
-    };
+    pub use super::InputPlugin;
 }
-pub mod eve;
 mod sys;
 
 use self::sys::*;
-use avian3d::prelude::*;
 use bevy::prelude::*;
 
 pub struct InputPlugin;

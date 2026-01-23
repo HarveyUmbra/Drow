@@ -1,6 +1,9 @@
-use super::eve::*;
 use avian3d::prelude::*;
 use bevy::prelude::*;
+use drow_core::prelude::{
+    LayerMask,
+    *,
+};
 
 // Übersetzt den User Input in ein Move Event das eine richtung wiedergibt
 pub fn controler_wasd(
@@ -13,7 +16,7 @@ pub fn controler_wasd(
     direction.x += keyboard.pressed(KeyCode::KeyA) as i32 as f32;
     direction.x -= keyboard.pressed(KeyCode::KeyD) as i32 as f32;
     if let Ok(dir) = Dir3::new(direction) {
-        commands.trigger(MoveInput(dir));
+        commands.trigger(MoveRequest::new(dir));
     }
 }
 
@@ -27,7 +30,7 @@ pub fn controler_eq(
     direction -= keyboard.just_pressed(KeyCode::KeyE) as i32 as f32;
 
     if direction != 0.0 {
-        commands.trigger(RotateInput(direction));
+        commands.trigger(RotateRequest::new(direction));
     }
 }
 
@@ -40,8 +43,8 @@ pub fn controler_click(
 ) {
     let pressed = mouse.get_just_pressed().next();
     let filter = match pressed {
-        Some(MouseButton::Left) => SpatialQueryFilter::from_mask(32), // Todo Defination of Layers
-        Some(MouseButton::Right) => SpatialQueryFilter::from_mask(43), // Todo Defination of Layers
+        Some(MouseButton::Left) => SpatialQueryFilter::from_mask(LayerMask::Actors), // Todo Defination of Layers
+        Some(MouseButton::Right) => SpatialQueryFilter::from_mask(LayerMask::Navmesh), // Todo Defination of Layers
         _ => return,
     };
 
@@ -56,11 +59,10 @@ pub fn controler_click(
             ) {
                 match pressed {
                     Some(MouseButton::Left) => {
-                        commands.trigger(ClickLeftInput(hit));
+                        commands.trigger(SelectActorRequest::new(hit.entity));
                         info!("Click Entity {} whit Left", hit.entity)
                     }
                     Some(MouseButton::Right) => {
-                        commands.trigger(ClickRightInput(hit));
                         info!("Click Entity {} whit Rigth", hit.entity)
                     }
                     _ => {

@@ -5,6 +5,11 @@ use super::{
 };
 use avian3d::prelude::*;
 use bevy::prelude::*;
+
+use drow_core::prelude::{
+    LayerMask,
+    *,
+};
 use drow_nav::prelude::*;
 
 pub fn spawn_actor_setup(
@@ -20,6 +25,7 @@ pub fn spawn_actor_setup(
         Position::from_xyz(0.0, 2.0, 0.0),
         LockedAxes::new().lock_rotation_z().lock_rotation_x(),
         Collider::capsule(0.5, 1.8),
+        CollisionLayers::new(LayerMask::Actors, [LayerMask::Ground, LayerMask::Actors]),
         MeshMaterial3d(materials.add(StandardMaterial::default())),
         Mesh3d(mesh),
         Transform::default(),
@@ -29,12 +35,12 @@ pub fn spawn_actor_setup(
 /// Funktion die es ermöglich ein Actor auszuwählen.
 /// ToDo: Umprogrammieren auf ein Query system hatt
 pub fn select_actor(
-    event: On<Pointer<Click>>,
+    event: On<SelectActorRequest>,
     mut selected: ResMut<SelectedActor>,
     query: Query<Entity, With<Actor>>,
 ) {
-    if query.contains(event.event_target()) {
-        selected.0 = Some(event.event_target());
+    if query.contains(event.entity) {
+        selected.0 = Some(event.entity);
     }
 }
 
