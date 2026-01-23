@@ -75,13 +75,13 @@ pub fn compute_path(
 
 //Debug System soll Path anzeigen
 pub fn display_path(
-    query: Query<(&Transform, &NavPath)>,
+    query: Query<(&Position, &NavPath)>,
     mut gizmos: Gizmos,
     primary_window: Single<&Window>,
 ) {
     let window = *primary_window;
 
-    for (transform, path) in &query {
+    for (position, path) in &query {
         if path.path.is_empty() {
             continue;
         }
