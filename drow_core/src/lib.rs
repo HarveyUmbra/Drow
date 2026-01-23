@@ -2,11 +2,7 @@ mod eve;
 pub mod prelude {
     use avian3d::prelude::*;
 
-    pub use super::eve::{
-        MoveRequest,
-        RotateRequest,
-        SelectActorRequest,
-    };
+    pub use super::eve::*;
 
     #[derive(PhysicsLayer, Default)]
     pub enum LayerMask {

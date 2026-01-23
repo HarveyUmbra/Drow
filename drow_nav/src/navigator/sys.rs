@@ -1,11 +1,9 @@
 use super::*;
 use avian3d::prelude::*;
-use bevy::{
-    ecs::query,
-    prelude::*,
-    window::PrimaryWindow,
-};
+use bevy::prelude::*;
 use vleue_navigator::prelude::*;
+
+use drow_core::prelude::*;
 
 pub fn check_navigator_ground(
     spaciel: SpatialQuery,
@@ -50,6 +48,16 @@ pub fn compute_path(
         if let Some(entity) = target.nav_mesh {
             if let Ok(ground) = grounds.get(entity) {
                 if let Some(navmesh) = nav_meshs.get(ground.id()) {
+                    if navmesh.transformed_is_in_mesh(position.0) {
+                        info!("position ist in Mesh")
+                    } else {
+                        info!("position ist nicht im Mesh")
+                    }
+                    if navmesh.transformed_is_in_mesh(target.target) {
+                        info!("target   ist in Mesh")
+                    } else {
+                        info!("target ist nicht im Mesh")
+                    }
                     if let Some(new_path) = navmesh.transformed_path(position.0, target.target) {
                         path.path = new_path.path
                     } else {
@@ -84,33 +92,9 @@ pub fn display_path(
     }
 }
 
-pub fn handle_mouse_clicks(
-    mut query: Query<&mut NavTarget>,
-    mouse_input: Res<ButtonInput<MouseButton>>,
-    spatial_query: SpatialQuery,
-    window: Single<&Window, With<PrimaryWindow>>,
-    camera_query: Single<(&Camera, &GlobalTransform)>,
-) {
-    if mouse_input.just_pressed(MouseButton::Left) {
-        let (camera, camera_transform) = *camera_query;
-
-        if let Some(viewport_position) = window.cursor_position() {
-            if let Ok(ray) = camera.viewport_to_world(camera_transform, viewport_position) {
-                // Avian Spatial Query: Findet den ersten Treffer
-                if let Some(hit) = spatial_query.cast_ray(
-                    ray.origin,                         // Startpunkt
-                    ray.direction,                      // Richtung (muss normalisiert sein)
-                    1000.0,                             // Maximale Distanz
-                    true, // 'Solid': Treffer auch wenn Ursprung in Collider
-                    &SpatialQueryFilter::from_mask(32), // Filter für Layer/Entities
-                ) {
-                    if let Ok(mut target) = query.single_mut() {
-                        target.target = ray.origin + (*ray.direction * hit.distance);
-                        target.nav_mesh = Some(hit.entity);
-                    }
-                    println!("Getroffene Entity: {:?}", hit.entity);
-                }
-            }
-        }
+pub fn change_target(event: On<ChangeTargetRequest>, mut query: Query<&mut NavTarget>) {
+    if let Ok(mut target) = query.single_mut() {
+        target.target = event.target;
+        target.nav_mesh = Some(event.entity);
     }
 }

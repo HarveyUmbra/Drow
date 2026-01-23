@@ -19,7 +19,8 @@ impl Plugin for NavigationPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Update, (compute_path, display_path))
             .add_observer(setup_ground)
-            .add_observer(despawn_ground);
+            //.add_observer(despawn_ground)
+            .add_observer(change_target);
     }
 }
 

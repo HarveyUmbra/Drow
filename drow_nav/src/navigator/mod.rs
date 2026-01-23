@@ -7,7 +7,7 @@ use bevy::prelude::*;
 #[require(NavTarget, NavPath)]
 pub struct Navigator;
 
-#[derive(Debug, Component, Default)]
+#[derive(Debug, Component, Default, Reflect)]
 pub struct NavTarget {
     pub target: Vec3,
     pub nav_mesh: Option<Entity>,

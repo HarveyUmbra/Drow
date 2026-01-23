@@ -1,3 +1,4 @@
+use avian3d::prelude::*;
 use bevy::prelude::*;
 
 #[derive(Event)]
@@ -31,5 +32,20 @@ pub struct SelectActorRequest {
 impl SelectActorRequest {
     pub fn new(entity: Entity) -> SelectActorRequest {
         return SelectActorRequest { entity: entity };
+    }
+}
+
+#[derive(Event)]
+pub struct ChangeTargetRequest {
+    pub entity: Entity,
+    pub target: Vec3,
+}
+
+impl ChangeTargetRequest {
+    pub fn new(entity: Entity, target: Vec3) -> ChangeTargetRequest {
+        return ChangeTargetRequest {
+            entity: entity,
+            target: target,
+        };
     }
 }

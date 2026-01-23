@@ -17,7 +17,7 @@ pub fn spawn_test_setup(
     commands.spawn((
         RigidBody::Static,
         Collider::cuboid(1.0, 1.0, 1.0),
-        Position::from_xyz(10.0, 0.5, 10.0),
+        Position::from_xyz(0.0, 0.5, 10.0),
         MeshMaterial3d(materials.add(StandardMaterial::default())),
         Mesh3d(mesh),
         Obstacle,

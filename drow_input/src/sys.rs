@@ -1,5 +1,8 @@
 use avian3d::prelude::*;
-use bevy::prelude::*;
+use bevy::{
+    prelude::*,
+    window::PrimaryWindow,
+};
 use drow_core::prelude::{
     LayerMask,
     *,
@@ -38,7 +41,7 @@ pub fn controler_click(
     mut commands: Commands,
     mouse: Res<ButtonInput<MouseButton>>,
     spaciel: SpatialQuery,
-    windows: Single<&Window>,
+    windows: Single<&Window, With<PrimaryWindow>>,
     camera: Single<(&Camera, &GlobalTransform)>,
 ) {
     let pressed = mouse.get_just_pressed().next();
@@ -63,6 +66,9 @@ pub fn controler_click(
                         info!("Click Entity {} whit Left", hit.entity)
                     }
                     Some(MouseButton::Right) => {
+                        let hit_point = ray.origin + *ray.direction * hit.distance;
+                        commands.trigger(ChangeTargetRequest::new(hit.entity, hit_point));
+
                         info!("Click Entity {} whit Rigth", hit.entity)
                     }
                     _ => {
