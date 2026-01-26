@@ -1,10 +1,12 @@
-mod nav;
 use super::{
     com::*,
     res::*,
 };
 use avian3d::prelude::*;
-use bevy::prelude::*;
+use bevy::{
+    ecs::query,
+    prelude::*,
+};
 
 use drow_core::prelude::{
     LayerMask,
@@ -17,14 +19,20 @@ pub fn spawn_actor_setup(
     mut materials: ResMut<Assets<StandardMaterial>>,
     mut meshes: ResMut<Assets<Mesh>>,
 ) {
-    let mesh = meshes.add(Capsule3d::new(0.5, 1.8));
+    let mesh = Mesh::from(Capsule3d::new(0.5, 1.8)).translated_by(Vec3::new(0.0, 1.4, 0.0));
+    let mesh = meshes.add(mesh);
     commands.spawn((
+        Name::new("Actor"),
         Actor::default(),
         Navigator,
         RigidBody::Dynamic,
         Position::from_xyz(0.0, 2.0, 0.0),
         LockedAxes::new().lock_rotation_z().lock_rotation_x(),
-        Collider::capsule(0.5, 1.8),
+        Collider::compound(vec![(
+            Vec3::new(0.0, 1.4, 0.0),
+            Quat::IDENTITY,
+            Collider::capsule(0.5, 1.8),
+        )]),
         CollisionLayers::new(LayerMask::Actors, [LayerMask::Ground, LayerMask::Actors]),
         MeshMaterial3d(materials.add(StandardMaterial::default())),
         Mesh3d(mesh),
@@ -41,6 +49,20 @@ pub fn select_actor(
 ) {
     if query.contains(event.entity) {
         selected.0 = Some(event.entity);
+    }
+}
+
+pub fn giz(mut gizmos: Gizmos, query: Query<(&Position, &Rotation), With<Actor>>) {
+    //gizmos.arrow(start, end, bevy::color::palettes::css::AZURE)
+    for (position, rotation) in query.iter() {
+        gizmos.arrow(
+            position.0, //
+            position.0
+                + Vec3::NEG_Z
+                    .rotate_axis(rotation.0.to_axis_angle().0, rotation.0.to_axis_angle().1)
+                    * 2.0,
+            bevy::color::palettes::css::AZURE,
+        );
     }
 }
 

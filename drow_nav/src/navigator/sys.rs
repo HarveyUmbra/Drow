@@ -1,6 +1,10 @@
 use super::*;
 use avian3d::prelude::*;
 use bevy::prelude::*;
+use std::f32::consts::{
+    PI,
+    TAU,
+};
 use vleue_navigator::prelude::*;
 
 use drow_core::prelude::*;
@@ -40,11 +44,11 @@ pub fn check_navigator_ground(
 // Wird nicht ausgeführt?
 /// Dieses System berechnet den Pfad zu einem Ziel. // A* Algoritmus
 pub fn compute_path(
-    mut query: Query<(&mut NavPath, &NavTarget, &Position), Changed<NavTarget>>,
+    mut query: Query<(&Position, &mut NavPath, &NavTarget), Changed<NavTarget>>,
     grounds: Query<&ManagedNavMesh>,
     nav_meshs: ResMut<Assets<NavMesh>>,
 ) {
-    for (mut path, target, position) in query.iter_mut() {
+    for (position, mut path, target) in query.iter_mut() {
         if let Some(entity) = target.nav_mesh {
             if let Ok(ground) = grounds.get(entity) {
                 if let Some(navmesh) = nav_meshs.get(ground.id()) {
@@ -73,6 +77,39 @@ pub fn compute_path(
     }
 }
 
+pub fn rvo(
+    mut query: Query<(
+        &mut AngularVelocity,
+        &mut LinearVelocity,
+        &Position,
+        &Rotation,
+        &mut NavPath,
+    )>,
+    time: Res<Time>,
+) {
+    for (mut ang_vel, mut lin_vel, position, rotation, mut path) in query.iter_mut() {
+        if path.path.is_empty() {
+            continue;
+        }
+
+        if let Some(target) = path.path.first() {
+            if (target - position.0).length_squared() > 0.1 {
+                let forward = (rotation.0 * Vec3::NEG_Z).normalize_or_zero();
+                let target_dir = (target - position.0).normalize_or_zero();
+
+                let angle =
+                    f32::atan2(target_dir.x, target_dir.z) - f32::atan2(forward.x, forward.z);
+                let normalized_angle = (angle + PI).rem_euclid(TAU) - PI;
+
+                ang_vel.y = normalized_angle; // Change Rotation
+                lin_vel.0 = forward; // Change Move
+            } else {
+                path.path.remove(0);
+            }
+        }
+    }
+}
+
 //Debug System soll Path anzeigen
 pub fn display_path(
     query: Query<(&Position, &NavPath)>,
@@ -88,7 +125,10 @@ pub fn display_path(
         gizmos.linestrip(
             path.path.iter().map(|p| (p.clone())),
             bevy::color::palettes::css::ORANGE,
-        )
+        );
+        if let Some(next) = path.path.first() {
+            gizmos.line(position.0, *next, bevy::color::palettes::css::ORANGE);
+        }
     }
 }
 

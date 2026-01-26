@@ -13,6 +13,7 @@ impl Plugin for ActorsPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<SelectedActor>()
             .add_systems(Startup, spawn_actor_setup)
+            .add_systems(Update, giz)
             .add_observer(select_actor);
     }
 }
