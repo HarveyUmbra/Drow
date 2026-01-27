@@ -1,18 +1,12 @@
+use crate::actors::eve;
+
 use super::{
     com::*,
     res::*,
 };
 use avian3d::prelude::*;
-use bevy::{
-    ecs::query,
-    prelude::*,
-};
-
-use drow_core::prelude::{
-    LayerMask,
-    *,
-};
-use drow_nav::prelude::*;
+use bevy::prelude::*;
+use drow_core::prelude::*;
 
 pub fn spawn_actor_setup(
     mut commands: Commands,
@@ -23,32 +17,48 @@ pub fn spawn_actor_setup(
     let mesh = meshes.add(mesh);
     commands.spawn((
         Name::new("Actor"),
-        Actor::default(),
-        Navigator,
-        RigidBody::Dynamic,
-        Position::from_xyz(0.0, 2.0, 0.0),
-        LockedAxes::new().lock_rotation_z().lock_rotation_x(),
-        Collider::compound(vec![(
-            Vec3::new(0.0, 1.4, 0.0),
-            Quat::IDENTITY,
-            Collider::capsule(0.5, 1.8),
-        )]),
-        CollisionLayers::new(LayerMask::Actors, [LayerMask::Ground, LayerMask::Actors]),
+        ActorBundle {
+            actor: Actor::default(),
+            position: Position::from_xyz(0.0, 2.0, 0.0),
+            ..default()
+        },
         MeshMaterial3d(materials.add(StandardMaterial::default())),
-        Mesh3d(mesh),
-        Transform::default(),
+        Mesh3d(mesh.clone()),
+    ));
+    commands.spawn((
+        Name::new("Actor"),
+        ActorBundle {
+            actor: Actor::default(),
+            position: Position::from_xyz(5.0, 2.0, 0.0),
+            ..default()
+        },
+        MeshMaterial3d(materials.add(StandardMaterial::default())),
+        Mesh3d(mesh.clone()),
     ));
 }
 
 /// Funktion die es ermöglich ein Actor auszuwählen.
 /// ToDo: Umprogrammieren auf ein Query system hatt
 pub fn select_actor(
-    event: On<SelectActorRequest>,
-    mut selected: ResMut<SelectedActor>,
-    query: Query<Entity, With<Actor>>,
+    event: On<SelectActorsRequest>,
+    mut commands: Commands,
+    query: Query<Entity, (With<Actor>, Without<Selected>)>,
 ) {
-    if query.contains(event.entity) {
-        selected.0 = Some(event.entity);
+    for entity in query.iter_many(&event.entities) {
+        commands.entity(entity).insert(Selected);
+    }
+}
+
+pub fn deslect_actor(
+    event: On<DeselectActorsRequest>,
+    mut commands: Commands,
+    query: Query<Entity, With<Selected>>,
+) {
+    for entity in query
+        .iter()
+        .filter(|e| !event.exceptions_entities.contains(&e))
+    {
+        commands.entity(entity).remove::<Selected>();
     }
 }
 
@@ -65,20 +75,3 @@ pub fn giz(mut gizmos: Gizmos, query: Query<(&Position, &Rotation), With<Actor>>
         );
     }
 }
-
-/*
-pub fn set_target_actor(
-    event: On<Pointer<Click>>,
-    selected: Res<SelectedActor>,
-    mut query: Query<&mut Target, With<Actor>>,
-) {
-    if let Some(entity) = selected.0
-        && !query.contains(event.event_target())
-    {
-        if let Some(hit_position) = event.hit.position {
-            if let Ok(mut target) = query.get_mut(entity) {
-                target.target = hit_position;
-            }
-        }
-    }
-} */

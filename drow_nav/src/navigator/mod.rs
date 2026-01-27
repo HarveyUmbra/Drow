@@ -1,10 +1,10 @@
 pub mod sys;
-
+use avian3d::prelude::*;
 use bevy::prelude::*;
 
 // Fügt alle Notwendigen Compenenten hinzu für einen Navigator
-#[derive(Debug, Component)]
-#[require(NavTarget, NavPath)]
+#[derive(Debug, Component, Default)]
+#[require(NavTarget, NavPath, Rotation, Position)]
 pub struct Navigator;
 
 #[derive(Debug, Component, Default, Reflect)]

@@ -40,6 +40,7 @@ pub fn controler_eq(
 pub fn controler_click(
     mut commands: Commands,
     mouse: Res<ButtonInput<MouseButton>>,
+    keyboard: Res<ButtonInput<KeyCode>>,
     spaciel: SpatialQuery,
     windows: Single<&Window, With<PrimaryWindow>>,
     camera: Single<(&Camera, &GlobalTransform)>,
@@ -62,18 +63,16 @@ pub fn controler_click(
             ) {
                 match pressed {
                     Some(MouseButton::Left) => {
-                        commands.trigger(SelectActorRequest::new(hit.entity));
-                        info!("Click Entity {} whit Left", hit.entity)
+                        if !keyboard.pressed(KeyCode::KeyR) {
+                            commands.trigger(DeselectActorsRequest::new(vec![hit.entity]));
+                        }
+                        commands.trigger(SelectActorsRequest::new(vec![hit.entity]));
                     }
                     Some(MouseButton::Right) => {
                         let hit_point = ray.origin + *ray.direction * hit.distance;
                         commands.trigger(ChangeTargetRequest::new(hit.entity, hit_point));
-
-                        info!("Click Entity {} whit Rigth", hit.entity)
                     }
-                    _ => {
-                        info!("Click False Entity")
-                    }
+                    _ => {}
                 }
             } else {
                 info!("Dont Click Enitty");

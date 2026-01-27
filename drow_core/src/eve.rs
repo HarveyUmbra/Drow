@@ -26,12 +26,25 @@ impl RotateRequest {
 }
 
 #[derive(Event)]
-pub struct SelectActorRequest {
-    pub entity: Entity,
+pub struct SelectActorsRequest {
+    pub entities: Vec<Entity>,
 }
-impl SelectActorRequest {
-    pub fn new(entity: Entity) -> SelectActorRequest {
-        return SelectActorRequest { entity: entity };
+impl SelectActorsRequest {
+    pub fn new(entities: Vec<Entity>) -> SelectActorsRequest {
+        return SelectActorsRequest { entities: entities };
+    }
+}
+
+#[derive(Event)]
+pub struct DeselectActorsRequest {
+    pub exceptions_entities: Vec<Entity>, //
+}
+
+impl DeselectActorsRequest {
+    pub fn new(entities: Vec<Entity>) -> DeselectActorsRequest {
+        return DeselectActorsRequest {
+            exceptions_entities: entities,
+        };
     }
 }
 

@@ -91,18 +91,21 @@ pub fn rvo(
         if path.path.is_empty() {
             continue;
         }
-
+        // Get the next Point of Path.
         if let Some(target) = path.path.first() {
+            // Check of Actor position == target is, if yes Delet the Target.
             if (target - position.0).length_squared() > 0.1 {
                 let forward = (rotation.0 * Vec3::NEG_Z).normalize_or_zero();
                 let target_dir = (target - position.0).normalize_or_zero();
-
+                // Todo: Reschersche zu der Mathematik
                 let angle =
                     f32::atan2(target_dir.x, target_dir.z) - f32::atan2(forward.x, forward.z);
                 let normalized_angle = (angle + PI).rem_euclid(TAU) - PI;
 
-                ang_vel.y = normalized_angle; // Change Rotation
-                lin_vel.0 = forward; // Change Move
+                let speed_rot = 3.0;
+                let speed_pos = 2.0;
+                ang_vel.y = normalized_angle * speed_rot; // Change Rotation
+                lin_vel.0 = forward * forward.dot(target_dir) * speed_pos;
             } else {
                 path.path.remove(0);
             }
@@ -132,8 +135,11 @@ pub fn display_path(
     }
 }
 
-pub fn change_target(event: On<ChangeTargetRequest>, mut query: Query<&mut NavTarget>) {
-    if let Ok(mut target) = query.single_mut() {
+pub fn change_target(
+    event: On<ChangeTargetRequest>,
+    mut query: Query<&mut NavTarget, With<Selected>>,
+) {
+    for mut target in query.iter_mut() {
         target.target = event.target;
         target.nav_mesh = Some(event.entity);
     }

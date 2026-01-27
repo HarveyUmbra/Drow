@@ -14,6 +14,7 @@ impl Plugin for ActorsPlugin {
         app.init_resource::<SelectedActor>()
             .add_systems(Startup, spawn_actor_setup)
             .add_systems(Update, giz)
+            .add_observer(deslect_actor)
             .add_observer(select_actor);
     }
 }
