@@ -13,14 +13,18 @@ use self::{
     navigator::sys::*,
     navmesh::sys::*,
 };
+use drow_core::prelude::*;
 
 pub struct NavigationPlugin;
 impl Plugin for NavigationPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (compute_path, display_path, rvo))
-            .add_observer(setup_ground)
-            //.add_observer(despawn_ground)
-            .add_observer(change_target);
+        app.add_systems(
+            Update,
+            (compute_path, display_path, rvo).run_if(in_state(GameState::Game)),
+        )
+        .add_observer(setup_ground)
+        //.add_observer(despawn_ground)
+        .add_observer(change_target);
     }
 }
 

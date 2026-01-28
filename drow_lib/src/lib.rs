@@ -8,6 +8,7 @@ use bevy::app::{
     PluginGroup,
     PluginGroupBuilder,
 };
+use drow_core::prelude::*;
 use drow_input::prelude::*;
 use drow_nav::prelude::*;
 
@@ -21,6 +22,7 @@ pub struct GamePlugins;
 impl PluginGroup for GamePlugins {
     fn build(self) -> PluginGroupBuilder {
         PluginGroupBuilder::start::<Self>() // EXTERN: // EXTERN: Add NavMesh support
+            .add(CorePlugin)
             .add_group(NavigationPlugins) // EXTERN: Generation NavMesh
             .add(InputPlugin)
             .add(CameraPlugin)

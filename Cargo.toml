@@ -6,7 +6,8 @@ members = [
     "drow_input",
     "drow_lib",
     "drow_main",
-    "drow_nav"
+    "drow_menu",
+    "drow_nav",
 ]
 
 [workspace.dependencies]
@@ -14,11 +15,12 @@ avian3d = "0.5.0"                       # Crate für die Physik von Bevy
 bevy-inspector-egui = "=0.36.0"         # Crate zu Help Devtools anzeige von allen entitys
 vleue_navigator = { version = "0.15", features = ["avian3d"] }      # Zu erzeugung von NavMesh und nutzung des A* algoritmus
 
-drow_core = { path = "./drow_core" }
-drow_lib = { path = "./drow_lib" }      # Crate für das Eigentliche Spiel
-drow_debug = { path = "./drow_debug" }  # Bereitstellen aller Entwickler tools die ich brauche
-drow_nav = { path = "./drow_nav" }
-drow_input = { path = "./drow_input" }
+drow_core =     { path = "./drow_core" }
+drow_debug =    { path = "./drow_debug" }
+drow_input =    { path = "./drow_input" }   # Bereitstellen aller Entwickler tools die ich brauche
+drow_lib =      { path = "./drow_lib" }     # Crate für das Eigentliche Spiel
+drow_menu =     { path = "./drow_menu"}
+drow_nav =      { path = "./drow_nav" }
 
 [workspace.dependencies.bevy]
 version = "0.18.0"

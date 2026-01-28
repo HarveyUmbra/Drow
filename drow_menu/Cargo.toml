@@ -1,0 +1,9 @@
+[package]
+name = "drow_menu"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+bevy.workspace = true
+
+drow_core.workspace = true
