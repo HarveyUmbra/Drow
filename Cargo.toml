@@ -25,4 +25,4 @@ drow_nav =      { path = "./drow_nav" }
 [workspace.dependencies.bevy]
 version = "0.18.0"
 default-features = false
-features = ["3d"]
+features = ["3d", "ui"]

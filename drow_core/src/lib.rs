@@ -4,8 +4,8 @@ use bevy::prelude::*;
 // This Stat
 #[derive(States, Debug, Clone, PartialEq, Eq, Hash, Default, Reflect)]
 pub enum GameState {
-    #[default]
     Game, // The Game Loop
+    #[default]
     Menu, // Main Menu Loop
     Load, // Load Assets
     Stop, // Stop the Game

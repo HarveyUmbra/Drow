@@ -10,6 +10,7 @@ use bevy::app::{
 };
 use drow_core::prelude::*;
 use drow_input::prelude::*;
+use drow_menu::MenuPlugin;
 use drow_nav::prelude::*;
 
 use crate::{
@@ -24,6 +25,7 @@ impl PluginGroup for GamePlugins {
         PluginGroupBuilder::start::<Self>() // EXTERN: // EXTERN: Add NavMesh support
             .add(CorePlugin)
             .add_group(NavigationPlugins) // EXTERN: Generation NavMesh
+            .add(MenuPlugin)
             .add(InputPlugin)
             .add(CameraPlugin)
             .add(ActorsPlugin)
