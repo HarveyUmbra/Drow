@@ -80,3 +80,17 @@ pub fn controler_click(
         }
     }
 }
+
+pub fn controler_esc(
+    keyboard: Res<ButtonInput<KeyCode>>,
+    state: Res<State<GameState>>,
+    mut next_state: ResMut<NextState<GameState>>,
+) {
+    if keyboard.just_pressed(KeyCode::Escape) {
+        if *state == GameState::Stop {
+            next_state.set(GameState::Run);
+        } else {
+            next_state.set(GameState::Stop);
+        }
+    }
+}

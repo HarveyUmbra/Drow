@@ -2,25 +2,24 @@ mod navigator;
 mod navmesh;
 pub mod prelude;
 
+use self::{
+    navigator::sys::*,
+    navmesh::sys::*,
+};
 use avian3d::prelude::*;
 use bevy::{
     app::PluginGroupBuilder,
     prelude::*,
 };
-use vleue_navigator::prelude::*;
-
-use self::{
-    navigator::sys::*,
-    navmesh::sys::*,
-};
 use drow_core::prelude::*;
+use vleue_navigator::prelude::*;
 
 pub struct NavigationPlugin;
 impl Plugin for NavigationPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (compute_path, display_path, rvo).run_if(in_state(GameState::Game)),
+            (compute_path, display_path, rvo).run_if(in_state(GameState::Run)),
         )
         .add_observer(setup_ground)
         //.add_observer(despawn_ground)

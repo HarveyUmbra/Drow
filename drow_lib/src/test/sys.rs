@@ -5,7 +5,10 @@ use avian3d::prelude::{
     RigidBody,
 };
 use bevy::prelude::*;
-use drow_core::prelude::LayerMask;
+use drow_core::{
+    AppState,
+    prelude::LayerMask,
+};
 use drow_nav::prelude::*;
 
 pub fn spawn_test_setup(
@@ -13,31 +16,23 @@ pub fn spawn_test_setup(
     mut materials: ResMut<Assets<StandardMaterial>>,
     mut meshes: ResMut<Assets<Mesh>>,
 ) {
+    let list = vec![
+        Vec3::new(10.0, 0.5, 10.0),
+        Vec3::new(4.0, 0.5, 3.0),
+        Vec3::new(-4.0, 0.5, 3.0),
+    ];
     let mesh = meshes.add(Cuboid::new(1.0, 1.0, 1.0));
-    commands.spawn((
-        RigidBody::Static,
-        Collider::cuboid(1.0, 1.0, 1.0),
-        Position::from_xyz(10.0, 0.5, 10.0),
-        MeshMaterial3d(materials.add(StandardMaterial::default())),
-        Mesh3d(mesh.clone()),
-        Obstacle,
-    ));
-    commands.spawn((
-        RigidBody::Static,
-        Collider::cuboid(1.0, 1.0, 1.0),
-        Position::from_xyz(4.0, 0.5, 3.0),
-        MeshMaterial3d(materials.add(StandardMaterial::default())),
-        Mesh3d(mesh.clone()),
-        Obstacle,
-    ));
-    commands.spawn((
-        RigidBody::Static,
-        Collider::cuboid(1.0, 1.0, 1.0),
-        Position::from_xyz(-4.0, 0.5, 3.0),
-        MeshMaterial3d(materials.add(StandardMaterial::default())),
-        Mesh3d(mesh.clone()),
-        Obstacle,
-    ));
+    for vec in list {
+        commands.spawn((
+            RigidBody::Static,
+            Collider::cuboid(1.0, 1.0, 1.0),
+            Position::from(vec),
+            MeshMaterial3d(materials.add(StandardMaterial::default())),
+            Mesh3d(mesh.clone()),
+            Obstacle,
+            DespawnOnExit(AppState::Game),
+        ));
+    }
 }
 
 pub fn spawn_ground(
@@ -54,5 +49,6 @@ pub fn spawn_ground(
         MeshMaterial3d(materials.add(StandardMaterial::default())),
         Mesh3d(meshes.add(Plane3d::new(Vec3::Y, Vec2::new(10.0, 10.0)))),
         NavGround,
+        DespawnOnExit(AppState::Game),
     ));
 }

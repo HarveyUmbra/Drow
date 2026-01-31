@@ -4,14 +4,12 @@ use super::{
     widgets::*,
 };
 use bevy::prelude::*;
-
-#[derive(Component)]
-pub struct Menu;
+use drow_core::*;
 
 pub fn spawn_menu(mut commands: Commands) {
+    commands.spawn((Camera3d::default(), DespawnOnExit(AppState::Menu)));
     commands
         .spawn((
-            Menu,
             Node {
                 width: percent(100.0),
                 height: percent(100.0),
@@ -22,7 +20,8 @@ pub fn spawn_menu(mut commands: Commands) {
                 row_gap: px(5.0),
                 ..default()
             },
-            BackgroundColor(BACKGROUND_COLOR.into()),
+            //BackgroundColor(BACKGROUND_COLOR.into()),
+            DespawnOnExit(AppState::Menu),
         ))
         .with_children(|parent| {
             parent
@@ -36,6 +35,31 @@ pub fn spawn_menu(mut commands: Commands) {
         });
 }
 
+pub fn spawn_stop_menu(mut commands: Commands) {
+    commands
+        .spawn((
+            Node {
+                width: percent(100.0),
+                height: percent(100.0),
+                flex_direction: FlexDirection::Column,
+                justify_content: JustifyContent::Center,
+                align_content: AlignContent::Center,
+                align_items: AlignItems::Center,
+                row_gap: px(5.0),
+                ..default()
+            },
+            DespawnOnExit(GameState::Stop),
+        ))
+        .with_children(|parent| {
+            parent
+                .spawn(ButtonBundle::new("Back".to_string()))
+                .observe(on_back);
+            parent
+                .spawn(ButtonBundle::new("Menu".to_string()))
+                .observe(on_menu);
+        });
+}
+
 pub fn button_system(mut query: Query<(&mut BackgroundColor, &Interaction), Changed<Interaction>>) {
     for (mut background, interaction) in query.iter_mut() {
         *background = match interaction {
@@ -43,11 +67,5 @@ pub fn button_system(mut query: Query<(&mut BackgroundColor, &Interaction), Chan
             Interaction::Pressed => PRESSED_COLOR.into(),
             Interaction::None => DEFAULT_COLOR.into(),
         };
-    }
-}
-
-pub fn despawn_menu(mut commands: Commands, query: Query<Entity, With<Menu>>) {
-    for entity in query {
-        commands.entity(entity).despawn();
     }
 }

@@ -1,10 +1,13 @@
 use avian3d::prelude::*;
 use bevy::prelude::*;
-use drow_core::prelude::LayerMask;
+use drow_core::prelude::{
+    LayerMask,
+    *,
+};
 use drow_nav::prelude::Navigator;
 
 #[derive(Component)]
-#[require(Navigator, LockedAxes, RigidBody)]
+#[require(Navigator, LockedAxes, RigidBody, DespawnOnExit<AppState>)]
 pub struct Actor(pub String);
 
 impl Default for Actor {
@@ -21,6 +24,7 @@ pub struct ActorBundle {
     pub locked_axes: LockedAxes,
     pub collider: Collider,
     pub collison_layer: CollisionLayers,
+    pub despawn: DespawnOnExit<AppState>,
 }
 
 impl Default for ActorBundle {
@@ -39,6 +43,7 @@ impl Default for ActorBundle {
                 LayerMask::Actors,
                 [LayerMask::Ground, LayerMask::Actors],
             ),
+            despawn: DespawnOnExit(AppState::Game),
         };
     }
 }

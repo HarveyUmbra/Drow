@@ -16,8 +16,9 @@ impl Plugin for InputPlugin {
                 controler_wasd, //
                 controler_eq,
                 controler_click,
+                controler_esc,
             )
-                .run_if(in_state(GameState::Game)),
+                .run_if(in_state(AppState::Game)),
         );
     }
 }

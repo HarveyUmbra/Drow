@@ -1,4 +1,3 @@
-use avian3d::prelude::*;
 use bevy::prelude::*;
 
 #[derive(Event)]
@@ -25,7 +24,7 @@ impl RotateRequest {
     }
 }
 
-#[derive(Event)]
+#[derive(Event)] // Todo EntityObserver
 pub struct SelectActorsRequest {
     pub entities: Vec<Entity>,
 }
@@ -35,7 +34,7 @@ impl SelectActorsRequest {
     }
 }
 
-#[derive(Event)]
+#[derive(Event)] // Todo EntityObserver
 pub struct DeselectActorsRequest {
     pub exceptions_entities: Vec<Entity>, //
 }

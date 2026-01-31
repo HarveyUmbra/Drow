@@ -3,14 +3,10 @@ mod camera;
 pub mod prelude;
 mod test;
 
-use avian3d::prelude::*;
 use bevy::app::{
     PluginGroup,
     PluginGroupBuilder,
 };
-use drow_core::prelude::*;
-use drow_input::prelude::*;
-use drow_menu::MenuPlugin;
 use drow_nav::prelude::*;
 
 use crate::{
@@ -23,10 +19,7 @@ pub struct GamePlugins;
 impl PluginGroup for GamePlugins {
     fn build(self) -> PluginGroupBuilder {
         PluginGroupBuilder::start::<Self>() // EXTERN: // EXTERN: Add NavMesh support
-            .add(CorePlugin)
-            .add_group(NavigationPlugins) // EXTERN: Generation NavMesh
-            .add(MenuPlugin)
-            .add(InputPlugin)
+            .add_group(NavigationPlugins)
             .add(CameraPlugin)
             .add(ActorsPlugin)
             .add(TestPlugin)

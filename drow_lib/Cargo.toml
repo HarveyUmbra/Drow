@@ -9,5 +9,3 @@ bevy.workspace = true
 
 drow_core.workspace = true
 drow_nav.workspace = true
-drow_input.workspace = true
-drow_menu.workspace = true

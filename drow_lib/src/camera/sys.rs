@@ -1,15 +1,13 @@
 use super::com::*;
 use bevy::prelude::*;
-use drow_core::prelude::{
-    MoveRequest,
-    RotateRequest,
-};
+use drow_core::prelude::*;
 
 pub fn spawn_camera_setup(mut commands: Commands) {
     commands
         .spawn((
             Transform::from_translation(Vec3::ZERO), //
             Player,
+            DespawnOnExit(AppState::Game),
         ))
         .with_child((
             Camera3d::default(),
