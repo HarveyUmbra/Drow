@@ -2,6 +2,7 @@ mod actors;
 mod camera;
 pub mod prelude;
 mod test;
+mod ui;
 
 use bevy::app::{
     PluginGroup,
@@ -13,6 +14,7 @@ use crate::{
     actors::ActorsPlugin,
     camera::CameraPlugin,
     test::TestPlugin,
+    ui::UiPlugin,
 };
 
 pub struct GamePlugins;
@@ -23,5 +25,6 @@ impl PluginGroup for GamePlugins {
             .add(CameraPlugin)
             .add(ActorsPlugin)
             .add(TestPlugin)
+            .add(UiPlugin)
     }
 }

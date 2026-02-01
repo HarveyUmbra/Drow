@@ -1,24 +1,28 @@
 use bevy::prelude::*;
 
-#[derive(Event)]
+#[derive(EntityEvent)]
 pub struct MoveRequest {
+    pub entity: Entity,
     pub direction: Dir3,
 }
 impl MoveRequest {
-    pub fn new(direction: Dir3) -> MoveRequest {
+    pub fn new(entity: Entity, direction: Dir3) -> MoveRequest {
         return MoveRequest {
+            entity: entity,
             direction: direction,
         };
     }
 }
 
-#[derive(Event)]
+#[derive(EntityEvent)]
 pub struct RotateRequest {
+    pub entity: Entity,
     pub direction: f32,
 }
 impl RotateRequest {
-    pub fn new(direction: f32) -> RotateRequest {
+    pub fn new(entity: Entity, direction: f32) -> RotateRequest {
         return RotateRequest {
+            entity: entity,
             direction: direction,
         };
     }

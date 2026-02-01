@@ -4,7 +4,7 @@ use super::{
     widgets::*,
 };
 use bevy::prelude::*;
-use drow_core::*;
+use drow_core::prelude::*;
 
 pub fn spawn_menu(mut commands: Commands) {
     commands.spawn((Camera3d::default(), DespawnOnExit(AppState::Menu)));

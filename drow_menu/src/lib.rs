@@ -4,7 +4,7 @@ mod sys;
 mod widgets;
 use self::sys::*;
 use bevy::prelude::*;
-use drow_core::*;
+use drow_core::prelude::*;
 
 pub struct MenuPlugin;
 impl Plugin for MenuPlugin {

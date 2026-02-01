@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use drow_core::*;
+use drow_core::prelude::*;
 
 pub fn on_play(_trigger: On<Pointer<Click>>, mut res: ResMut<NextState<AppState>>) {
     res.set(AppState::Game);

@@ -2,7 +2,7 @@ pub mod com;
 mod sys;
 use bevy::prelude::*;
 
-use drow_core::AppState;
+use drow_core::prelude::*;
 use sys::*;
 
 pub struct TestPlugin;

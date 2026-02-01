@@ -5,9 +5,9 @@ use avian3d::prelude::{
     RigidBody,
 };
 use bevy::prelude::*;
-use drow_core::{
-    AppState,
-    prelude::LayerMask,
+use drow_core::prelude::{
+    LayerMask,
+    *,
 };
 use drow_nav::prelude::*;
 
