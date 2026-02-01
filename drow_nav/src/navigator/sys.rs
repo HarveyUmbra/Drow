@@ -1,13 +1,18 @@
 use super::*;
 use avian3d::prelude::*;
 use bevy::prelude::*;
+use drow_core::prelude::*;
 use std::f32::consts::{
     PI,
     TAU,
 };
 use vleue_navigator::prelude::*;
 
-use drow_core::prelude::*;
+pub fn setup_navigator(event: On<Add, Navigator>, mut commands: Commands) {
+    commands
+        .entity(event.entity)
+        .insert((NavTarget::default(), NavPath::default()));
+}
 
 pub fn check_navigator_ground(
     spaciel: SpatialQuery,

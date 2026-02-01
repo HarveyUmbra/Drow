@@ -4,7 +4,6 @@ use drow_core::prelude::{
     LayerMask,
     *,
 };
-use drow_nav::prelude::Navigator;
 
 #[derive(Component)]
 #[require(Navigator, LockedAxes, RigidBody, DespawnOnExit<AppState>)]

@@ -1,6 +1,5 @@
 pub use super::{
     Obstacle,
-    navigator::Navigator,
     navmesh::NavGround,
 };
 

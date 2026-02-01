@@ -1,4 +1,3 @@
-mod actors;
 mod camera;
 pub mod prelude;
 mod test;
@@ -11,7 +10,6 @@ use bevy::app::{
 use drow_nav::prelude::*;
 
 use crate::{
-    actors::ActorsPlugin,
     camera::CameraPlugin,
     test::TestPlugin,
     ui::UiPlugin,
@@ -23,7 +21,6 @@ impl PluginGroup for GamePlugins {
         PluginGroupBuilder::start::<Self>() // EXTERN: // EXTERN: Add NavMesh support
             .add_group(NavigationPlugins)
             .add(CameraPlugin)
-            .add(ActorsPlugin)
             .add(TestPlugin)
             .add(UiPlugin)
     }

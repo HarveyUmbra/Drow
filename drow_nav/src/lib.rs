@@ -22,6 +22,7 @@ impl Plugin for NavigationPlugin {
             (compute_path, display_path, rvo).run_if(in_state(GameState::Run)),
         )
         .add_observer(setup_ground)
+        .add_observer(setup_navigator)
         //.add_observer(despawn_ground)
         .add_observer(change_target);
     }

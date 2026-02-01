@@ -1,0 +1,10 @@
+[package]
+name = "drow_actor"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+avian3d.workspace = true
+bevy.workspace = true
+
+drow_core.workspace = true

@@ -1,6 +1,7 @@
 [workspace]
 resolver = "3"
 members = [
+    "drow_actor",
     "drow_core",
     "drow_debug",
     "drow_input",
@@ -15,6 +16,7 @@ avian3d = "0.5.0"                       # Crate für die Physik von Bevy
 bevy-inspector-egui = "=0.36.0"         # Crate zu Help Devtools anzeige von allen entitys
 vleue_navigator = { version = "0.15", features = ["avian3d"] }      # Zu erzeugung von NavMesh und nutzung des A* algoritmus
 
+drow_actor =    { path = "./drow_actor" }
 drow_core =     { path = "./drow_core" }
 drow_debug =    { path = "./drow_debug" }
 drow_input =    { path = "./drow_input" }   # Bereitstellen aller Entwickler tools die ich brauche

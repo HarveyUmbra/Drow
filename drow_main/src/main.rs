@@ -4,6 +4,7 @@ use avian3d::{
 };
 use bevy::prelude::*;
 
+use drow_actor::prelude::*;
 use drow_core::prelude::*;
 use drow_debug::prelude::*;
 use drow_input::prelude::*;
@@ -17,6 +18,7 @@ fn main() {
         .add_plugins((
             CorePlugin,
             InputPlugin,
+            ActorsPlugin,
             GamePlugins,
             MenuPlugin,
             DebugPlugins,
