@@ -11,8 +11,8 @@ use sys::*;
 pub struct ActorsPlugin;
 impl Plugin for ActorsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(AppState::Game), spawn_actor_setup)
-            .add_systems(Update, giz)
+        app.add_systems(Update, giz)
+            .add_observer(spawn_actor)
             .add_observer(deslect_actor)
             .add_observer(select_actor);
     }

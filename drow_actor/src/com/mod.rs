@@ -6,7 +6,7 @@ use drow_core::prelude::{
 };
 
 #[derive(Component)]
-#[require(Navigator, LockedAxes, RigidBody, DespawnOnExit<AppState>)]
+#[require(LockedAxes, RigidBody, DespawnOnExit<AppState>)]
 pub struct Actor(pub String);
 
 impl Default for Actor {

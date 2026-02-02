@@ -3,6 +3,7 @@ use avian3d::prelude::{
     CollisionLayers,
     Position,
     RigidBody,
+    Rotation,
 };
 use bevy::prelude::*;
 use drow_core::prelude::{
@@ -33,6 +34,14 @@ pub fn spawn_test_setup(
             DespawnOnExit(AppState::Game),
         ));
     }
+    commands.trigger(SpawnActorEvent {
+        position: Position::from_xyz(5.0, 2.0, 0.0),
+        ..default()
+    });
+    commands.trigger(SpawnActorEvent {
+        position: Position::from_xyz(0.0, 2.0, 0.0),
+        ..default()
+    });
 }
 
 pub fn spawn_ground(

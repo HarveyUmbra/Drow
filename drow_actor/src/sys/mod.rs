@@ -3,7 +3,8 @@ use avian3d::prelude::*;
 use bevy::prelude::*;
 use drow_core::prelude::*;
 
-pub fn spawn_actor_setup(
+pub fn spawn_actor(
+    event: On<SpawnActorEvent>,
     mut commands: Commands,
     mut materials: ResMut<Assets<StandardMaterial>>,
     mut meshes: ResMut<Assets<Mesh>>,
@@ -14,21 +15,12 @@ pub fn spawn_actor_setup(
         Name::new("Actor"),
         ActorBundle {
             actor: Actor::default(),
-            position: Position::from_xyz(0.0, 2.0, 0.0),
+            position: event.position,
             ..default()
         },
         MeshMaterial3d(materials.add(StandardMaterial::default())),
         Mesh3d(mesh.clone()),
-    ));
-    commands.spawn((
-        Name::new("Actor"),
-        ActorBundle {
-            actor: Actor::default(),
-            position: Position::from_xyz(5.0, 2.0, 0.0),
-            ..default()
-        },
-        MeshMaterial3d(materials.add(StandardMaterial::default())),
-        Mesh3d(mesh.clone()),
+        Navigator,
     ));
 }
 

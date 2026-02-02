@@ -2,7 +2,10 @@ use avian3d::prelude::*;
 
 pub use super::{
     com::*,
-    eve::*,
+    eve::{
+        request::*,
+        *,
+    },
     res::*,
     *,
 };
